@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy Now</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+<body class="container">
+<a href="/logout" class="btn btn-danger">Logout</a>
+<a href="/sell" class="btn btn-info">Sell It!</a>
+{% include 'header.html' %}
+<section class="row">
+    {{msg}}
+    {% for row in rows %}
+    <div class="col-md-3">
+        <hr style="border: 2px solid green;">
+        <div class="card container bg-white text-dark">
+             <!--  We bind image as received from the route, check /view returns   -->
+             <!--  We also decode the data with base 64          -->
+            <img src="data:;base64,{{row[6].decode('utf-8')}}" class="img-fluid"/>
+            <p class="text-muted">{{row[1]}}</p>
+            <b>Qtty: {{row[2] | safe}}</b>
+            <b class="text-info">Cost: {{row[3]}} KES </b>
+            <b>Tel: {{row[4]}}</b>
+            <b>Buy in: {{row[5]}}</b>
+            <a href="/checkout" class="btn btn-success">Order Now</a>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+
+</head>
+<body class="container">
+{% include 'header.html' %}
+
+ <p class="alert alert-danger">{{msg}}</p>
+    <form action="/login" method="POST">
+        <input type="text" class="form-control" name="uname" placeholder="Username" required>
+        <br><br>
+        <input type="password" minlength="4" class="form-control" name="passw" placeholder="Password" required>
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+        <a href="/register">Not signed up? Sign up</a>
+    <br><br>
+        <a href="/forgot">Forgot password?</a>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

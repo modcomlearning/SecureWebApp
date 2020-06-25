@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sell Products</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+<body class="container">
+{%  include 'header.html' %}
+<!--enctype="multipart/form-data"  is for image upload-->
+<h3 class="alert alert-success">Sell It!</h3>
+<b>* Enter Product Details and we will sell it for you</b>
+<form action="/sell" method="post" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Product Name" required>
+    <br><br>
+    <label for="qtty">Product Qtty</label><br>
+    <input type="text" name="qtty" id="qtty"required>
+    <br><br>
+    <label for="cost">Product Cost</label><br>
+    <input type="number" name="cost" id="cost" required>
+    <br><br>
+    <input type="tel" name="tel" placeholder="Your telephone number" required>
+    <br><br>
+    <label for="location">Where are you Located:</label>
+    <select name="location" id="location" required>
+        <option value="Westlands">Westlands</option>
+        <option value="Kasarani">Kasarani</option>
+        <option value="Donholm">Donholm</option>
+        <option value="Lavington">Lavington</option>
+        <option value="Dandora">Dandora</option>
+        <option value="Eastlands">Eastlands</option>
+        <option value="Langata">Langata</option>
+        <option value="Mathare">Mathare</option>
+        <option value="Mukuru">Mukuru</option>
+        <option value="Thika">Thika</option>
+    </select>
+    <br><br>
+<!--    This was not covered in class, its for image-->
+    <label>Upload Product Photo</label>
+    <input type="file" name="photo">
+    <br><br>
+    <input type="submit" value="Sell" class="btn btn-primary">
+
+</form>
+<br>
+<alert class="alert alert-danger">{{msg1}}</alert>
+<alert class="alert alert-primary">{{msg}}</alert>
+
+{%  include 'footer.html' %}
+</body>
+</html>

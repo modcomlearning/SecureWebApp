@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+<body class="container">
+{% include 'header.html' %}
+<section class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+        <br>
+        <a href="/login">Already Registered? Login</a>
+        <br><br>
+
+        <form action="/register" method="POST">
+            <span class="text-danger">{{msg4}}</span>
+            <input type="text" class="form-control" name="uname" placeholder="Username" required>
+            <br><br>
+            <input type="email" class="form-control" name="email" placeholder="Email address" required>
+            <br><br>
+            <input type="password" minlength="4" class="form-control" name="passw" placeholder="Password" required>
+            <br><br>
+
+            <input type="password" minlength="4" class="form-control" name="passw_again" placeholder="Password Again" required>
+            <br>
+            <span class="text-danger">{{msg3}}</span>
+            <br><br>
+            Gender:<select name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Rather_not_say">Rather not say</option>
+            </select>
+            <br><br>
+            <input type="text" class="form-control" name="nationality" placeholder="Nationality" required>
+            <br><br>
+
+            Gender:<select name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Rather_not_say">Rather not say</option>
+            </select>
+            <br><br>
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
+        <br><br>
+        <span class="text-primary">{{msg}}</span>
+         <br><br>
+        <span class="text-danger">{{msg2}}</span>
+    </div>
+
+    <div class="col-md-2">
+
+    </div>
+</section>
+{% include 'footer.html' %}
+</body>
+</html>
