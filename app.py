@@ -8,7 +8,7 @@ from flask import Flask, render_template, session
 # start a flask app
 app = Flask(__name__)
 # set key to encrypt sessions
-app.secret_key = '#modcom$541l0r5'
+app.secret_key = '#DemoWebApp$541l0r5'
 # import flask redirect, request
 from flask import redirect
 from flask import request
