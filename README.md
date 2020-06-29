@@ -1,7 +1,7 @@
 # About Project
 ###### This project is a web application written in python Flask Framework.
 ###### The application uses MySQL database. the database is included in the project as cyberdb.sql
-
+###### In this Flask application different Security Measures are taken , ie XSS Protection, CSRF Protection, SQL Injection, Password strength, hashing/salting of password,  Sessions Security, Access Control Checks etc 
 ##### Project Setup
 ###### Download this project in your computer and extract!
 ##### Database
