@@ -17,5 +17,20 @@
 #### Routes
 ###### The app includes several routes i.e /register    /login      /sell    /buy    /checkout  /logout   where each route has its own logic.
 
+##### /register Route
+###### This route registers users of the system to the database, it includes password strength checks(Hard to guess), password re enter feature, HTM escaping(to stop XSS) and password hashing and salting(Hard to guess), also uses prepared statements in SQL to control SQL Injection
 
+##### /Login Route
+###### This route includes login logic verifying hasked/salted password from the database, also uses prepared statements in SQL to control SQL Injection, creates user session and role  i.e admin or user.
+
+##### /sell Route
+###### This routes allows ONLY ADMIN to post or sell, includes HTML escaping(to stop XSS) , also uses prepared statements in SQL to control SQL Injection
+###### This routes includes Access Control Checks, only admin can view this route. see line 75
+
+##### /buy Route
+###### This route displays products for buying, HTM escaping(to stop XSS) and password hashing and salting(Hard to guess), also uses prepared statements in SQL to control SQL Injection
+###### normal users and admin can view.
+
+##### /register Route
+###### This is a logout route to clear sessions set earlier in login route.
 

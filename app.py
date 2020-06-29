@@ -1,29 +1,32 @@
-
+# Developed By MDDCOM, student can copy and modify the codes
 from base64 import b64encode  # encoding the image, line 79
 from datetime import timedelta  # used on line 17
 
 from flask import Flask, render_template, session
+
 # start a flask app
 app = Flask(__name__)
 
+# # set key to encrypt sessions/token
 app.secret_key = '#DemoWebApp$541l0r5'
-# from flask_wtf.csrf import CSRFProtect
-# csrf = CSRFProtect(app)
-# # set key to encrypt sessions
+# used for CSRF protection
+from flask_wtf.csrf import CsrfProtect
+csrf = CsrfProtect(app)
+
 
 
 # import flask redirect, request
 from flask import redirect
 from flask import request
 
-# Set session expiry lifetime if not in use, here its 2 mins
+# Set session expiry lifetime if not in use, here its 5 mins
 app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=5)
 
 # activate HTTP Only/Secure to True
 # activate samesite to 'Lax'
 # This reduces chances af a Sessions Fixation/Hijacking
 app.config.update(
-    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_SECURE=False,  # For it work locally
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax'
 )
@@ -36,7 +39,7 @@ def home():
 
 # import pymysql to connect the database
 import pymysql
-import html   # html for escape
+import html   # html for escaping
 
 # function to ======================= hash password
 import hashlib, binascii, os
@@ -68,7 +71,8 @@ def verify_password(hashed_password, provided_password):
 # Sell Page/Route
 @app.route('/sell', methods=['post', 'get'])
 def sell():
-    if 'uname' in session:
+    # check if user is looged in and role is admin, as from the database.
+    if 'uname' in session and session['role'] == 'admin':
         if request.method == 'POST':
             # escape protects XSS/SQL Injection
             name = html.escape(str(request.form['name']))
@@ -118,7 +122,6 @@ def register():
         #  more validation on inputs can be done here, empties, length, range
 
         import re
-
         # check if passw match with  - password again(confirm)
         #  more validation on inputs can be done here, empties, length, range
         if passw!=passw_again:
@@ -151,7 +154,7 @@ def register():
             cursor = conn.cursor()
             try:
                 # password must be hashed, check how its provide below.
-                # Its hashed, check hash function on line 42
+                # Its hashed, check hash function on line 48
                 cursor.execute(sql, (uname, email, hash_password(passw), gender, nationality))
                 conn.commit()
                 return render_template('register.html',
@@ -189,12 +192,12 @@ def login():
             rows_found = cursor.fetchone()
             password_from_db = rows_found[2] # we retrieve the password at colm 3 of row found- count from zero
             # Now verify if this above password is same as what the user provided
-            status = verify_password(password_from_db, passw) # check verify function on line 52
-            if status ==True:
-                 session['uname'] = uname   # create a session token
-                 session['role'] = rows_found[5]  # create a role
-
-                 #session.permanent = True   # to activate session expiry started on line 17
+            status = verify_password(password_from_db, passw) # check verifyfunction on line 58
+            if status == True:
+                 session['uname'] = uname   # create a session with loggedin username
+                 session['role'] = rows_found[5]  # create a session using role.
+                 # role colm is position 5 in database, counting from zero.
+                 session.permanent = True   # to activate session expiry started on line 23
                  return redirect('/sell') # go to /buy
 
             else:
@@ -240,15 +243,14 @@ def checkout():
 # Logout Route
 @app.route('/logout')
 def logout():
-    session.pop('uname', None) # was set during login on line 95
+    session.pop('uname', None) # was set during login
+    session.pop('role', None)
     return redirect('/login') # session is now cleared
 
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)  # ranges from 1000 to 10000
+    app.run(debug=True)
 
-# Create two folders templates and static
-# Templates - HTML files
-# static - css,js,images,videos,audios,everything else
+
 
