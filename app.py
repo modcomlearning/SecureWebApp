@@ -17,7 +17,7 @@ from flask import redirect
 from flask import request
 
 # Set session expiry lifetime if not in use, here its 2 mins
-app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=2)
+app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=5)
 
 # activate HTTP Only/Secure to True
 # activate samesite to 'Lax'
@@ -193,6 +193,7 @@ def login():
             if status ==True:
                  session['uname'] = uname   # create a session token
                  session['role'] = rows_found[5]  # create a role
+
                  #session.permanent = True   # to activate session expiry started on line 17
                  return redirect('/sell') # go to /buy
 
