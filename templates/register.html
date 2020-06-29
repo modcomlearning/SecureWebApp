@@ -17,6 +17,7 @@
         <br><br>
 
         <form action="/register" method="POST">
+
             <span class="text-danger">{{msg4}}</span>
             <input type="text" class="form-control" name="uname" placeholder="Username" required>
             <br><br>
@@ -36,13 +37,6 @@
             </select>
             <br><br>
             <input type="text" class="form-control" name="nationality" placeholder="Nationality" required>
-            <br><br>
-
-            Gender:<select name="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Rather_not_say">Rather not say</option>
-            </select>
             <br><br>
             <input type="submit" class="btn btn-primary" value="Submit">
         </form>

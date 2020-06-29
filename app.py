@@ -1,14 +1,17 @@
-import os
+
 from base64 import b64encode  # encoding the image, line 79
 from datetime import timedelta  # used on line 17
-
-
 
 from flask import Flask, render_template, session
 # start a flask app
 app = Flask(__name__)
-# set key to encrypt sessions
+
 app.secret_key = '#DemoWebApp$541l0r5'
+# from flask_wtf.csrf import CSRFProtect
+# csrf = CSRFProtect(app)
+# # set key to encrypt sessions
+
+
 # import flask redirect, request
 from flask import redirect
 from flask import request
@@ -65,37 +68,40 @@ def verify_password(hashed_password, provided_password):
 # Sell Page/Route
 @app.route('/sell', methods=['post', 'get'])
 def sell():
-    if request.method == 'POST':
-        # escape protects XSS/SQL Injection
-        name = html.escape(str(request.form['name']))
-        qtty = html.escape(str(request.form['qtty']))
-        cost = html.escape(str(request.form['cost']))
-        tel = html.escape(str(request.form['tel']))
-        location = html.escape(str(request.form['location']))
-        photo = request.files["photo"]  # get image from form
-        # read image
-        readImage = photo.read() # read the image file data, the real image
-        # encode image to base64 and decode to utf-8
-        encodedImage = b64encode(readImage).decode("utf-8")
-        #pass 'encodedImage' to  your SQL on line 51
+    if 'uname' in session:
+        if request.method == 'POST':
+            # escape protects XSS/SQL Injection
+            name = html.escape(str(request.form['name']))
+            qtty = html.escape(str(request.form['qtty']))
+            cost = html.escape(str(request.form['cost']))
+            tel = html.escape(str(request.form['tel']))
+            location = html.escape(str(request.form['location']))
+            photo = request.files["photo"]  # get image from form
+            # read image
+            readImage = photo.read() # read the image file data, the real image
+            # encode image to base64 and decode to utf-8
+            encodedImage = b64encode(readImage).decode("utf-8")
+            #pass 'encodedImage' to  your SQL on line 51
 
-        conn = pymysql.connect('localhost', 'root', '', 'cyberdb')
-        # Use prepared statements below: stops SQL Injection
-        sql = "Insert into products_table(name,qtty,cost,tel,location, photo) values(%s,%s,%s,%s,%s, %s)"
+            conn = pymysql.connect('localhost', 'root', '', 'cyberdb')
+            # Use prepared statements below: stops SQL Injection
+            sql = "Insert into products_table(name,qtty,cost,tel,location, photo) values(%s,%s,%s,%s,%s, %s)"
 
-        # Execute above sql, no values in sql
-        cursor = conn.cursor()  # cursor executes sql
-        try:
-            cursor.execute(sql, (name, qtty, cost, tel, location, encodedImage))
-            conn.commit()
-            return render_template('sell.html',
-                                       msg='Thank you for your request.')
-        except:
-            return render_template('sell.html',
-                                    msg1='System problem. Try again later')
+            # Execute above sql, no values in sql
+            cursor = conn.cursor()  # cursor executes sql
+            try:
+                cursor.execute(sql, (name, qtty, cost, tel, location, encodedImage))
+                conn.commit()
+                return render_template('sell.html',
+                                           msg='Thank you for your request.')
+            except:
+                return render_template('sell.html',
+                                        msg1='System problem. Try again later')
+        else:
+            return render_template('sell.html')
+
     else:
-        return render_template('sell.html')
-
+        return redirect("/login")
 
 
 # # Register Page/Route
@@ -186,8 +192,9 @@ def login():
             status = verify_password(password_from_db, passw) # check verify function on line 52
             if status ==True:
                  session['uname'] = uname   # create a session token
-                 session.permanent = True   # to activate session expiry started on line 17
-                 return redirect('/buy')
+                 session['role'] = rows_found[5]  # create a role
+                 #session.permanent = True   # to activate session expiry started on line 17
+                 return redirect('/sell') # go to /buy
 
             else:
                 # password do not match
@@ -220,9 +227,8 @@ def view():
             rows = cursor.fetchall()
             # return all rows the templates, in templates check inage is decoded to utf and base 64
             return render_template('buy.html', rows=rows)
-
     else:
-        return redirect('/buy')
+        return redirect('/login')
 
 # Checkout Page/Route, please the image
 @app.route('/checkout')
