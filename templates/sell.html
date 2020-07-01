@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="../static/css/bootstrap.css">
 </head>
 <body class="container">
+
 {%  include 'header.html' %}
+<a href="/logout" class="btn btn-danger">Logout</a>
 <!--enctype="multipart/form-data"  is for image upload-->
 <h3 class="alert alert-success">Sell It!</h3>
 <b>* Enter Product Details and we will sell it for you</b>
 <form action="/sell" method="post" enctype="multipart/form-data">
-
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <input type="text" name="name" placeholder="Product Name" required>
     <br><br>
     <label for="qtty">Product Qtty</label><br>

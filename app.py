@@ -4,6 +4,10 @@ from datetime import timedelta  # used on line 17
 
 from flask import Flask, render_template, session
 
+# To allow logging and Monitoring
+# import logging
+# logging.basicConfig(filename='demo.log', level=logging.DEBUG)
+
 # start a flask app
 app = Flask(__name__)
 
@@ -198,14 +202,18 @@ def login():
                  session['role'] = rows_found[5]  # create a session using role.
                  # role colm is position 5 in database, counting from zero.
                  session.permanent = True   # to activate session expiry started on line 23
-                 return redirect('/sell') # go to /buy
+                 # Log a message
+                 #app.logger.info('%s logged in successfully', uname)
+                 return redirect('/buy') # go to /buy
 
             else:
                 # password do not match
+                #app.logger.error('%s Passwords do not match', uname)
                 return render_template('login.html', msg='Password do not match')
 
         else:
             # Login error
+            app.logger.error('%s Error', uname)
             return render_template('login.html', msg='Error. Contact support')
 
     else:

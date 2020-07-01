@@ -17,7 +17,7 @@
         <br><br>
 
         <form action="/register" method="POST">
-
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <span class="text-danger">{{msg4}}</span>
             <input type="text" class="form-control" name="uname" placeholder="Username" required>
             <br><br>

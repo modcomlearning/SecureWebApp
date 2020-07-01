@@ -7,7 +7,10 @@
 </head>
 <body class="container">
 <a href="/logout" class="btn btn-danger">Logout</a>
-<a href="/sell" class="btn btn-info">Sell It!</a>
+{% if 'admin'  in session['role']  %}
+     <a href="/sell" class="btn btn-info">Sell It!</a>
+{% endif %}
+
 {% include 'header.html' %}
 <section class="row">
     {{msg}}
@@ -24,6 +27,9 @@
             <b>Tel: {{row[4]}}</b>
             <b>Buy in: {{row[5]}}</b>
             <a href="/" class="btn btn-success">Order Now</a>
+            {% if 'admin'  in session['role']  %}
+                <a href="/delete" class="btn btn-info">Delete</a>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

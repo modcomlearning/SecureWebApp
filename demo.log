@@ -1,0 +1,19 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 235-657-389
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:23:42] "[32mGET /logout HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:23:42] "[37mGET /login HTTP/1.1[0m" 200 -
+INFO:app:bob logged in successfully
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:23:51] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:23:51] "[37mGET /sell HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:24:03] "[32mGET /logout HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:24:03] "[37mGET /login HTTP/1.1[0m" 200 -
+ERROR:app:bob Passwords do not match
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:24:08] "[37mPOST /login HTTP/1.1[0m" 200 -
+ERROR:app:bob Passwords do not match
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:24:12] "[37mPOST /login HTTP/1.1[0m" 200 -
+ERROR:app:bob Passwords do not match
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:24:43] "[37mPOST /login HTTP/1.1[0m" 200 -
+ERROR:app:bob Passwords do not match
+INFO:werkzeug:127.0.0.1 - - [29/Jun/2020 14:24:53] "[37mPOST /login HTTP/1.1[0m" 200 -
