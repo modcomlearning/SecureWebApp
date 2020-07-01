@@ -4,9 +4,9 @@ from datetime import timedelta  # used on line 17
 
 from flask import Flask, render_template, session
 
-# To allow logging and Monitoring
-# import logging
-# logging.basicConfig(filename='demo.log', level=logging.DEBUG)
+# To allow logging
+import logging
+logging.basicConfig(filename='demo.log', level=logging.DEBUG)
 
 # start a flask app
 app = Flask(__name__)
@@ -16,7 +16,6 @@ app.secret_key = '#DemoWebApp$541l0r5'
 # used for CSRF protection
 from flask_wtf.csrf import CsrfProtect
 csrf = CsrfProtect(app)
-
 
 
 # import flask redirect, request
@@ -70,13 +69,17 @@ def verify_password(hashed_password, provided_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == hashed_password
 
-
+#github.com/modcomlearning
 
 # Sell Page/Route
 @app.route('/sell', methods=['post', 'get'])
 def sell():
+    # log something
+    app.logger.info('%s Accessed sell, ', session['uname'])
     # check if user is looged in and role is admin, as from the database.
     if 'uname' in session and session['role'] == 'admin':
+        # log something
+        app.logger.info('%s accesed this page', session['uname'])
         if request.method == 'POST':
             # escape protects XSS/SQL Injection
             name = html.escape(str(request.form['name']))
@@ -133,6 +136,7 @@ def register():
                                    msg3="Password do not match!")
         # Check password strength  , this stops password brute force.
         elif (len(passw)<8):
+                    app.logger.info('%s Password too short')
                     return render_template('register.html',
                                   msg3="Must be more than 8 -ters")
 
@@ -203,17 +207,22 @@ def login():
                  # role colm is position 5 in database, counting from zero.
                  session.permanent = True   # to activate session expiry started on line 23
                  # Log a message
-                 #app.logger.info('%s logged in successfully', uname)
+                 # get time in python
+                 # log something
+                 app.logger.info('%s logged in successfully', uname)
+                 app.logger.info('%s logged as', rows_found[5])
                  return redirect('/buy') # go to /buy
 
             else:
                 # password do not match
-                #app.logger.error('%s Passwords do not match', uname)
+                # log something
+                app.logger.error('%s Passwords do not match', uname)
                 return render_template('login.html', msg='Password do not match')
 
         else:
             # Login error
-            app.logger.error('%s Error', uname)
+            # log something
+            app.logger.error('%s Error, Error. Contact support', uname)
             return render_template('login.html', msg='Error. Contact support')
 
     else:
@@ -227,6 +236,7 @@ def view():
     # Control URL Access , below we check if user has a session
     # User must login to access this page
     if 'uname' in session:
+        app.logger.info('%s Buy accesed by ', session['uname'])
         conn = pymysql.connect('localhost', 'root', '', 'cyberdb')
         sql = 'Select * from products_table'
         cursor = conn.cursor()
@@ -251,6 +261,8 @@ def checkout():
 # Logout Route
 @app.route('/logout')
 def logout():
+    # log something
+    app.logger.info('%s loggedout successfully', session['uname'])
     session.pop('uname', None) # was set during login
     session.pop('role', None)
     return redirect('/login') # session is now cleared
