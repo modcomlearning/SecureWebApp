@@ -2,6 +2,17 @@
 from base64 import b64encode  # encoding the image, line 79
 from datetime import timedelta  # used on line 17
 
+import pandas
+
+
+# 0729 225 710
+# teamviewer id and password
+
+# Install
+# nmap
+# wireshark
+# OWASP Zap
+
 from flask import Flask, render_template, session
 
 # To allow logging
@@ -69,7 +80,7 @@ def verify_password(hashed_password, provided_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == hashed_password
 
-#github.com/modcomlearning
+
 
 # Sell Page/Route
 @app.route('/sell', methods=['post', 'get'])
@@ -267,6 +278,13 @@ def logout():
     session.pop('role', None)
     return redirect('/login') # session is now cleared
 
+
+
+@app.route("/logs")
+def logs():
+    F = open("demo.log", "r")
+    print(F.read())
+    return render_template("log.html", logs = F.read())
 
 # Run the app
 if __name__ == '__main__':
